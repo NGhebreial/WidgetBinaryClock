@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -64,7 +65,7 @@ public class MainFrameConfigureActivity extends Activity
 
             // It is the responsibility of the configuration activity to update the app widget
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            MainFrame.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+            MainFrame.updateAppWidget(context, appWidgetManager, mAppWidgetId, Color.YELLOW);
 
             // Make sure we pass back the original appWidgetId
             Intent resultValue = new Intent();

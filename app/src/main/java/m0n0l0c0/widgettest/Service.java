@@ -1,6 +1,7 @@
 package m0n0l0c0.widgettest;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +24,6 @@ public class Service extends IntentService
     @Override
     public void onCreate() {
         super.onCreate();
-        //NO ES NECESARIO
-//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-//        filter.addAction(Intent.ACTION_SCREEN_OFF);
-//        BroadcastReceiver mReceiver = new WidgetReceiver();
-//        registerReceiver(mReceiver, filter);
     }
     /** Se ejecuta cada vez que el receiver detecta on/off en la pantalla
      * de forma que se recibe el estado actual de la pantalla*/
@@ -38,6 +34,10 @@ public class Service extends IntentService
             //Dejar de actualizar la vista si la pantalla esta apagada
             Log.d(TAG, "SCREEN OFF ");
         } else {
+            Intent i = new Intent(this, MainFrame.class);
+            i.putExtra("updateView","updateView");
+            sendBroadcast(i);
+            //startActivity(i);
             /*Cuando la pantalla esta en on ->
             * actualizar la vista cada minuto
             * enviando la situacion actual horaria*/
@@ -46,6 +46,7 @@ public class Service extends IntentService
              * ¿Actualizar la vista desde la view, refrescandola desde el servicio
              * solo cada minuto?*/
             Log.d(TAG, "SCREEN ONN ");
+
         }
     }
     //??
@@ -57,5 +58,6 @@ public class Service extends IntentService
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "DESTROY ");
     }
 }

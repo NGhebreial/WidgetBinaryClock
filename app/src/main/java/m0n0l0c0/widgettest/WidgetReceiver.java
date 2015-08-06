@@ -16,13 +16,27 @@ public class WidgetReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "PROVIDER() " + intent.getAction());
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+        if (intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             screenOff = true;
-        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+            this.startService(context);
+        } else if (intent.getAction()!=null && intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
             screenOff = false;
+            this.startService(context);
+            context.getApplicationContext().unregisterReceiver(this);
         }
+        else if (intent.getStringExtra("destroyService")!=null && intent.getStringExtra("destroyService").matches("destroyService")) {
+           stopService(context);
+        }
+
+    }
+
+    private void startService(Context context){
         Intent i = new Intent(context, Service.class);
         i.putExtra("screenOff", screenOff);
         context.startService(i);
+    }
+    private void stopService(Context context){
+        Intent i = new Intent(context, Service.class);
+        context.stopService(i);
     }
 }
